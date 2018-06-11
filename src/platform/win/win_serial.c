@@ -23,9 +23,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define PLAT_SERIAL_C
-#include "../86box.h"
-#include "../plat.h"
-#include "../plat_serial.h"
+#include "../../86box.h"
+#include "../../plat.h"
+#include "../../plat_serial.h"
 
 
 /* Handle the receiving of data from the host port. */

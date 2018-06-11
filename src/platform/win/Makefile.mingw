@@ -126,9 +126,6 @@ endif
 ifndef X64
 X64		:= n
 endif
-ifndef WX
-WX		:= n
-endif
 ifndef USB
 USB		:= n
 endif
@@ -151,43 +148,7 @@ endif
 
 # Name of the executable.
 ifndef PROG
- ifneq ($(WX), n)
-  PROG		:= Wx86Box
- else
-  PROG		:= 86Box
- endif
-endif
-
-# WxWidgets basic info. Extract using the config program.
-ifneq ($(WX), n)
- EXPATH		+= wx
- WX_CONFIG	:= wx-config.exe
- ifeq ($(WX), y)
-  WX_PATH	:= C:/MinGW32/WxWidgets
-  WX_FLAGS	:= -I$(WX_PATH)/lib/wx/include/msw-unicode-3.0 \
-		   -I$(WX_PATH)/include/wx-3.0 \
-		   -D__WXMSW__ -DWX_PRECOMP -D_FILE_OFFSET_BITS=64 -pthread
-#		   -lwx_mswu_gl-3.0 -lwxtiff-3.0 -llzma
-  WX_LIBS	:= -mwindows -mthreads -L$(WX_PATH)/lib \
-		   -lwx_mswu-3.0.dll \
-		   -lrpcrt4 -loleaut32 -lole32 -luuid \
-		   -lwinspool -lwinmm -lshell32 -lcomctl32 \
-		   -lcomdlg32 -ladvapi32 -lwsock32 -lgdi32
- endif
- ifeq ($(WX), static)
-  WX_PATH	:= C:/MinGW32/WxWidgets
-  WX_FLAGS	:= -I$(WX_PATH)/lib/wx/include/msw-unicode-3.0 \
-		   -I$(WX_PATH)/include/wx-3.0 \
-		   -D__WXMSW__ -DWX_PRECOMP -D_FILE_OFFSET_BITS=64 -pthread
-#		   -lwx_mswu_gl-3.0 -lwxtiff-3.0 -llzma
-  WX_LIBS	:= -mwindows -mthreads -L$(WX_PATH)/lib \
-		   -lwx_mswu-3.0 -lwxscintilla-3.0 \
-		   -lwxjpeg-3.0 -lwxpng-3.0 -lwxzlib-3.0 \
-		   -lwxregexu-3.0 -lwxexpat-3.0 \
-		   -lrpcrt4 -loleaut32 -lole32 -luuid \
-		   -lwinspool -lwinmm -lshell32 -lcomctl32 \
-		   -lcomdlg32 -ladvapi32 -lwsock32 -lgdi32
- endif
+ PROG		:= 86Box
 endif
 
 
@@ -200,7 +161,7 @@ VPATH		:= $(EXPATH) . cpu \
 		    sound/munt sound/munt/c_interface sound/munt/sha1 \
 		    sound/munt/srchelper \
 		    sound/resid-fp \
-		   scsi video network network/slirp win
+		   scsi video network network/slirp platform/win
 ifeq ($(X64), y)
 CPP		:= g++ -m64
 CC		:= gcc -m64
@@ -210,7 +171,7 @@ CC		:= gcc -m32
 endif
 WINDRES		:= windres
 DEPS		= -MMD -MF $*.d -c $<
-DEPFILE		:= win/.depends
+DEPFILE		:= platform/win/.depends
 
 # Set up the correct toolchain flags.
 OPTS		:= $(EXTRAS) $(STUFF)
@@ -285,17 +246,11 @@ DYNARECOBJ	:= 386_dynarec_ops.o \
 		    codegen_timing_winchip.o $(PLATCG)
 endif
 
-ifneq ($(WX), n)
- OPTS		+= -DUSE_WX $(WX_FLAGS)
- LIBS		+= $(WX_LIBS)
- UIOBJ		:= wx_main.o wx_ui.o wx_stbar.o wx_render.o
-else
- UIOBJ		:= win_ui.o win_stbar.o \
+UIOBJ		:= win_ui.o win_stbar.o \
 		   win_ddraw.o win_d3d.o \
 		   win_dialog.o win_about.o \
 		   win_settings.o win_devconf.o win_snd_gain.o \
 		   win_new_floppy.o win_jsconf.o
-endif
 
 ifeq ($(OPENAL), y)
 OPTS		+= -DUSE_OPENAL
@@ -401,7 +356,7 @@ endif
 
 
 # Final versions of the toolchain flags.
-CFLAGS		:= $(WX_FLAGS) $(OPTS) $(DFLAGS) $(COPTIM) $(AOPTIM) \
+CFLAGS		:= $(OPTS) $(DFLAGS) $(COPTIM) $(AOPTIM) \
 		   $(AFLAGS) -fomit-frame-pointer -mstackrealign -Wall \
 		   -fno-strict-aliasing
 CFLAGS		:= $(CFLAGS)
@@ -565,9 +520,6 @@ LIBS		+= $(VNCLIB) -lws2_32
 endif
 ifeq ($(RDP), y)
 LIBS		+= $(RDPLIB)
-endif
-ifneq ($(WX), n)
-LIBS		+= $(WX_LIBS) -lm
 endif
 LIBS		+= -lpng -lz -lwsock32 -liphlpapi
 LIBS		+= -static -lstdc++ -lgcc

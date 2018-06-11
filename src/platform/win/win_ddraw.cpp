@@ -33,11 +33,11 @@
 #include <png.h>
 
 #define HAVE_STDARG_H
-#include "../86box.h"
-#include "../device.h"
-#include "../video/video.h"
-#include "../plat.h"
-#include "../ui.h"
+#include "../../86box.h"
+#include "../../device.h"
+#include "../../video/video.h"
+#include "../../plat.h"
+#include "../../ui.h"
 #include "win_ddraw.h"
 #include "win.h"
 

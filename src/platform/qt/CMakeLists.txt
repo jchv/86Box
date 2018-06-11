@@ -1,0 +1,293 @@
+# CMake configuration
+cmake_minimum_required(VERSION 3.10)
+project(86Box)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_AUTOMOC ON)
+
+# Base requirements
+find_package(OpenAL REQUIRED)
+
+# Qt requirements
+find_package(Qt5Widgets)
+
+# Project layout
+set(main_src
+        ../../pc.c
+        ../../config.c
+        ../../random.c
+        ../../timer.c
+        ../../io.c
+        ../../dma.c
+        ../../nmi.c
+        ../../pic.c
+        ../../pit.c
+        ../../ppi.c
+        ../../pci.c
+        ../../mca.c
+        ../../mcr.c
+        ../../mem.c
+        ../../memregs.c
+        ../../rom.c
+        ../../device.c
+        ../../nvr.c
+        ../../nvr_at.c
+        ../../nvr_ps2.c
+        )
+
+set(intel_src
+        ../../intel.c
+        ../../intel_flash.c
+        ../../intel_sio.c
+        ../../intel_piix.c
+        )
+
+set(cpu_src
+        ../../cpu/cpu.c
+        ../../cpu/cpu_table.c
+        ../../cpu/808x.c
+        ../../cpu/386.c
+        ../../cpu/386_dynarec.c
+        ../../cpu/x86seg.c
+        ../../cpu/x87.c
+        )
+
+set(machine_src
+        ../../machine/machine.c
+        ../../machine/machine_table.c
+        ../../machine/m_xt.c
+        ../../machine/m_xt_compaq.c
+        ../../machine/m_xt_t1000.c
+        ../../machine/m_xt_t1000_vid.c
+        ../../machine/m_xt_xi8088.c
+        ../../machine/m_pcjr.c
+        ../../machine/m_amstrad.c
+        ../../machine/m_europc.c
+        ../../machine/m_olivetti_m24.c
+        ../../machine/m_tandy.c
+        ../../machine/m_at.c
+        ../../machine/m_at_ali1429.c
+        ../../machine/m_at_commodore.c
+        ../../machine/m_at_neat.c
+        ../../machine/m_at_headland.c
+        ../../machine/m_at_t3100e.c
+        ../../machine/m_at_t3100e_vid.c
+        ../../machine/m_ps1.c
+        ../../machine/m_ps1_hdc.c
+        ../../machine/m_ps2_isa.c
+        ../../machine/m_ps2_mca.c
+        ../../machine/m_at_opti495.c
+        ../../machine/m_at_scat.c
+        ../../machine/m_at_compaq.c
+        ../../machine/m_at_wd76c10.c
+        ../../machine/m_at_sis_85c471.c
+        ../../machine/m_at_sis_85c496.c
+        ../../machine/m_at_4x0.c
+        )
+
+set(device_src
+        ../../bugger.c
+        ../../lpt.c
+        ../../serial.c
+        ../../sio_fdc37c66x.c
+        ../../sio_fdc37c669.c
+        ../../sio_fdc37c93x.c
+        ../../sio_pc87306.c
+        ../../sio_w83877f.c
+        ../../sio_um8669f.c
+        ../../keyboard.c
+        ../../keyboard_xt.c
+        ../../keyboard_at.c
+        ../../game/gameport.c
+        ../../game/joystick_standard.c
+        ../../game/joystick_ch_flightstick_pro.c
+        ../../game/joystick_sw_pad.c
+        ../../game/joystick_tm_fcs.c
+        ../../mouse.c
+        ../../mouse_bus.c
+        ../../mouse_serial.c
+        ../../mouse_ps2.c
+        )
+
+set(fdd_src
+        ../../floppy/fdd.c
+        ../../floppy/fdc.c
+        ../../floppy/fdi2raw.c
+        ../../floppy/fdd_common.c
+        ../../floppy/fdd_86f.c
+        ../../floppy/fdd_fdi.c
+        ../../floppy/fdd_imd.c
+        ../../floppy/fdd_img.c
+        ../../floppy/fdd_json.c
+        ../../floppy/fdd_td0.c
+        )
+
+set(hdd_src
+        ../../disk/hdd.c
+        ../../disk/hdd_image.c
+        ../../disk/hdd_table.c
+        ../../disk/hdc.c
+        ../../disk/hdc_mfm_xt.c
+        ../../disk/hdc_mfm_at.c
+        ../../disk/hdc_xta.c
+        ../../disk/hdc_esdi_at.c
+        ../../disk/hdc_esdi_mca.c
+        ../../disk/hdc_xtide.c
+        ../../disk/hdc_ide.c
+        )
+
+set(cdrom_src
+        ../../cdrom/cdrom.c
+        ../../cdrom/cdrom_dosbox.cpp
+        ../../cdrom/cdrom_image.cc
+        ../../cdrom/cdrom_null.c
+        )
+
+set(zip_src
+        ../../disk/zip.c)
+
+set(scsi_src
+        ../../scsi/scsi.c
+        ../../scsi/scsi_bus.c
+        ../../scsi/scsi_device.c
+        ../../scsi/scsi_disk.c
+        ../../scsi/scsi_x54x.c
+        ../../scsi/scsi_aha154x.c
+        ../../scsi/scsi_buslogic.c
+        ../../scsi/scsi_ncr5380.c
+        ../../scsi/scsi_ncr53c810.c)
+
+set(network_src
+        ../../network/network.c
+        ../../network/net_pcap.c
+        ../../network/net_slirp.c
+        ../../network/slirp/bootp.c
+        ../../network/slirp/ip_icmp.c
+        ../../network/slirp/misc.c
+        ../../network/slirp/socket.c
+        ../../network/slirp/tcp_timer.c
+        ../../network/slirp/cksum.c
+        ../../network/slirp/ip_input.c
+        ../../network/slirp/queue.c
+        ../../network/slirp/tcp_input.c
+        ../../network/slirp/debug.c
+        ../../network/slirp/ip_output.c
+        ../../network/slirp/sbuf.c
+        ../../network/slirp/tcp_output.c
+        ../../network/slirp/udp.c
+        ../../network/slirp/if.c
+        ../../network/slirp/mbuf.c
+        ../../network/slirp/slirp.c
+        ../../network/slirp/tcp_subr.c
+        ../../network/net_ne2000.c
+        )
+
+SET(sound_src
+        ../../sound/sound.c
+        ../../sound/openal.c
+        ../../sound/snd_opl.c
+        ../../sound/snd_dbopl.cc
+        ../../sound/dbopl.cpp
+        ../../sound/nukedopl.cpp
+        ../../sound/snd_resid.cc
+        ../../sound/resid-fp/convolve.cc
+        ../../sound/resid-fp/convolve-sse.cc
+        ../../sound/resid-fp/envelope.cc
+        ../../sound/resid-fp/extfilt.cc
+        ../../sound/resid-fp/filter.cc
+        ../../sound/resid-fp/pot.cc
+        ../../sound/resid-fp/sid.cc
+        ../../sound/resid-fp/voice.cc
+        ../../sound/resid-fp/wave6581__ST.cc
+        ../../sound/resid-fp/wave6581_P_T.cc
+        ../../sound/resid-fp/wave6581_PS_.cc
+        ../../sound/resid-fp/wave6581_PST.cc
+        ../../sound/resid-fp/wave8580__ST.cc
+        ../../sound/resid-fp/wave8580_P_T.cc
+        ../../sound/resid-fp/wave8580_PS_.cc
+        ../../sound/resid-fp/wave8580_PST.cc
+        ../../sound/resid-fp/wave.cc
+        ../../sound/midi.c
+        ../../sound/midi_system.c
+        ../../sound/snd_speaker.c
+        ../../sound/snd_pssj.c
+        ../../sound/snd_lpt_dac.c
+        ../../sound/snd_lpt_dss.c
+        ../../sound/snd_adlib.c
+        ../../sound/snd_adlibgold.c
+        ../../sound/snd_ad1848.c
+        ../../sound/snd_audiopci.c
+        ../../sound/snd_cms.c
+        ../../sound/snd_gus.c
+        ../../sound/snd_sb.c
+        ../../sound/snd_sb_dsp.c
+        ../../sound/snd_emu8k.c
+        ../../sound/snd_mpu401.c
+        ../../sound/snd_sn76489.c
+        ../../sound/snd_ssi2001.c
+        ../../sound/snd_wss.c
+        ../../sound/snd_ym7128.c
+        )
+
+SET(video_src
+        ../../video/video.c
+        ../../video/vid_table.c
+        ../../video/vid_cga.c
+        ../../video/vid_cga_comp.c
+        ../../video/vid_compaq_cga.c
+        ../../video/vid_mda.c
+        ../../video/vid_hercules.c
+        ../../video/vid_herculesplus.c
+        ../../video/vid_incolor.c
+        ../../video/vid_colorplus.c
+        ../../video/vid_genius.c
+        ../../video/vid_wy700.c
+        ../../video/vid_ega.c
+        ../../video/vid_ega_render.c
+        ../../video/vid_svga.c
+        ../../video/vid_svga_render.c
+        ../../video/vid_vga.c
+        ../../video/vid_ati_eeprom.c
+        ../../video/vid_ati18800.c
+        ../../video/vid_ati28800.c
+        ../../video/vid_ati_mach64.c
+        ../../video/vid_ati68860_ramdac.c
+        ../../video/vid_ics2595.c
+        ../../video/vid_cl54xx.c
+        ../../video/vid_et4000.c
+        ../../video/vid_sc1502x_ramdac.c
+        ../../video/vid_et4000w32.c
+        ../../video/vid_stg_ramdac.c
+        ../../video/vid_oak_oti.c
+        ../../video/vid_paradise.c
+        ../../video/vid_ti_cf62011.c
+        ../../video/vid_tvga.c
+        ../../video/vid_tgui9440.c
+        ../../video/vid_tkd8001_ramdac.c
+        ../../video/vid_s3.c
+        ../../video/vid_s3_virge.c
+        ../../video/vid_sdac_ramdac.c
+        ../../video/vid_voodoo.c)
+
+add_executable(86Box
+        ${main_src}
+        ${intel_src}
+        ${cpu_src}
+        ${machine_src}
+        ${device_src}
+        ${fdd_src}
+        ${cdrom_src}
+        ${zip_src}
+        ${hdd_src}
+        ${network_src}
+        ${scsi_src}
+        ${sound_src}
+        ${video_src}
+        main.cpp
+        qt_thread.cpp
+        qt_system.cpp
+        qt_ui.cpp
+        qt_gameport.cpp
+        qt_disk.cpp qt_midi.cpp)
+
+target_link_libraries(86Box Qt5::Widgets ${OPENAL_LIBRARY})

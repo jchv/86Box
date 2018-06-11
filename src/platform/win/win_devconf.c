@@ -20,12 +20,12 @@
 #include <stdint.h>
 #include <string.h>
 #include <wchar.h>
-#include "../86box.h"
-#include "../config.h"
-#include "../device.h"
-#include "../plat.h"
-#include "../plat_midi.h"
-#include "../ui.h"
+#include "../../86box.h"
+#include "../../config.h"
+#include "../../device.h"
+#include "../../plat.h"
+#include "../../plat_midi.h"
+#include "../../ui.h"
 #include "win.h"
 #include <windowsx.h>
 

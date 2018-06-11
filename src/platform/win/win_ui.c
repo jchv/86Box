@@ -27,16 +27,16 @@
 #include <stdlib.h>
 #include <time.h>
 #include <wchar.h>
-#include "../86box.h"
-#include "../config.h"
-#include "../device.h"
-#include "../keyboard.h"
-#include "../mouse.h"
-#include "../video/video.h"
-#include "../video/vid_ega.h"		// for update_overscan
-#include "../plat.h"
-#include "../plat_midi.h"
-#include "../ui.h"
+#include "../../86box.h"
+#include "../../config.h"
+#include "../../device.h"
+#include "../../keyboard.h"
+#include "../../mouse.h"
+#include "../../video/video.h"
+#include "../../video/vid_ega.h"		// for update_overscan
+#include "../../plat.h"
+#include "../../plat_midi.h"
+#include "../../ui.h"
 #include "win.h"
 #include "win_d3d.h"
 

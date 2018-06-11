@@ -321,11 +321,5 @@ keyboard_isfsexit(void)
 int
 keyboard_ismsexit(void)
 {
-#ifdef _WIN32
-    /* Windows: F8+F12 */
     return( recv_key[0x042] && recv_key[0x058] );
-#else
-    /* WxWidgets cannot do two regular keys.. CTRL+END */
-    return( (recv_key[0x01D] || recv_key[0x11D]) && (recv_key[0x04F] || recv_key[0x14F]) );
-#endif
 }

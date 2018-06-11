@@ -157,7 +157,7 @@ DYNAREC		:= y
 #########################################################################
 #	    Include the master Makefile.MinGW for the rest.		#
 #########################################################################
-include win/Makefile.mingw
+include platform/win/Makefile.mingw
 
 
 # End of Makefile.local.

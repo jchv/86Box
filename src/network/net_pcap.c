@@ -82,15 +82,15 @@ struct bpf_program {
 
 typedef struct pcap_if	pcap_if_t; 
 
-typedef struct timeval {
+typedef struct pcap_timeval {
     long		tv_sec;
     long		tv_usec;
-} timeval;
+} pcap_timeval;
 
 #define PCAP_ERRBUF_SIZE	256
 
 struct pcap_pkthdr {
-    struct timeval	ts;
+    struct pcap_timeval	ts;
     bpf_u_int32		caplen;
     bpf_u_int32		len;
 };

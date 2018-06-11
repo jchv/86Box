@@ -79,9 +79,6 @@ int	start_in_fullscreen = 0;		/* (O) start in fullscreen */
 #ifdef _WIN32
 int	force_debug = 0;			/* (O) force debug output */
 #endif
-#ifdef USE_WX
-int	video_fps = RENDER_FPS;			/* (O) render speed in fps */
-#endif
 int	settings_only = 0;			/* (O) show only the settings dialog */
 #ifdef _WIN32
 uint64_t	unique_id = 0;

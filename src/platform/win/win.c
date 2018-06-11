@@ -29,27 +29,23 @@
 #include <time.h>
 #include <wchar.h>
 #define HAVE_STDARG_H
-#include "../86box.h"
-#include "../config.h"
-#include "../device.h"
-#include "../mouse.h"
-#include "../video/video.h"
+#include "../../86box.h"
+#include "../../config.h"
+#include "../../device.h"
+#include "../../mouse.h"
+#include "../../video/video.h"
 #define GLOBAL
-#include "../plat.h"
-#include "../plat_midi.h"
-#include "../ui.h"
+#include "../../plat.h"
+#include "../../plat_midi.h"
+#include "../../ui.h"
 #ifdef USE_VNC
-# include "../vnc.h"
+# include "../../vnc.h"
 #endif
 #ifdef USE_RDP
-# include "../rdp.h"
+# include "../../rdp.h"
 #endif
-#ifdef USE_WX
-# include "../wx/wx_ui.h"
-#else
-# include "win_ddraw.h"
-# include "win_d3d.h"
-#endif
+#include "win_ddraw.h"
+#include "win_d3d.h"
 #include "win.h"
 
 
@@ -89,13 +85,8 @@ static struct {
     int		(*pause)(void);
 } vid_apis[2][4] = {
   {
-#ifdef USE_WX
-    {	"WxWidgets", 1, wx_init, wx_close, NULL, wx_pause		},
-    {	"WxWidgets", 1, wx_init, wx_close, NULL, wx_pause		},
-#else
     {	"DDraw", 1, (int(*)(void*))ddraw_init, ddraw_close, NULL, ddraw_pause		},
     {	"D3D", 1, (int(*)(void*))d3d_init, d3d_close, d3d_resize, d3d_pause		},
-#endif
 #ifdef USE_VNC
     {	"VNC", 0, vnc_init, vnc_close, vnc_resize, vnc_pause		},
 #else
@@ -108,13 +99,8 @@ static struct {
 #endif
   },
   {
-#ifdef USE_WX
-    {	"WxWidgets", 1, wx_init, wx_close, NULL, wx_pause		},
-    {	"WxWidgets", 1, wx_init, wx_close, NULL, wx_pause		},
-#else
     {	"DDraw", 1, (int(*)(void*))ddraw_init_fs, ddraw_close, NULL, ddraw_pause	},
     {	"D3D", 1, (int(*)(void*))d3d_init_fs, d3d_close, NULL, d3d_pause		},
-#endif
 #ifdef USE_VNC
     {	"VNC", 0, vnc_init, vnc_close, vnc_resize, vnc_pause		},
 #else
@@ -250,7 +236,6 @@ plat_get_string(int i)
 }
 
 
-#ifndef USE_WX
 /* Create a console if we don't already have one. */
 static void
 CreateConsole(int init)
@@ -405,7 +390,6 @@ WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpszArg, int nCmdShow)
 
     return(i);
 }
-#endif	/*USE_WX*/
 
 
 /*
@@ -663,25 +647,15 @@ plat_setvid(int api)
 
     /* Close the (old) API. */
     vid_apis[0][vid_api].close();
-//#ifdef USE_WX
-//    ui_check_menu_item(IDM_View_WX+vid_api, 0);
-//#endif
     vid_api = api;
 
-#ifndef USE_WX
     if (vid_apis[0][vid_api].local)
 	ShowWindow(hwndRender, SW_SHOW);
       else
 	ShowWindow(hwndRender, SW_HIDE);
-#endif
 
     /* Initialize the (new) API. */
-#ifdef USE_WX
-//    ui_check_menu_item(IDM_View_WX+vid_api, 1);
-    i = vid_apis[0][vid_api].init(NULL);
-#else
     i = vid_apis[0][vid_api].init((void *)hwndRender);
-#endif
     endblit();
     if (! i) return(0);
 
@@ -741,10 +715,6 @@ plat_setfullscreen(int on)
     hw = (video_fullscreen) ? &hwndMain : &hwndRender;
     vid_apis[video_fullscreen][vid_api].init((void *) *hw);
 
-#ifdef USE_WX
-    wx_set_fullscreen(on);
-#endif
-
     win_mouse_init();
 
     /* Release video and make it redraw the screen. */
@@ -784,12 +754,6 @@ take_screenshot(void)
     wcscat(path, fn);
 
     switch(vid_api) {
-#ifdef USE_WX
-	case 0:
-	case 1:
-		wx_screenshot(path);
-		break;
-#else
 	case 0:		/* ddraw */
 		ddraw_take_screenshot(path);
 		break;
@@ -797,7 +761,6 @@ take_screenshot(void)
 	case 1:		/* d3d9 */
 		d3d_take_screenshot(path);
 		break;
-#endif
 
 #ifdef USE_VNC
 	case 2:		/* vnc */

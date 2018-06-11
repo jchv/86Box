@@ -25,11 +25,11 @@
 #include <string.h>
 #include <stdlib.h>
 #include <wchar.h>
-#include "../86box.h"
-#include "../plat.h"
-#include "../random.h"
-#include "../ui.h"
-#include "../disk/zip.h"
+#include "../../86box.h"
+#include "../../plat.h"
+#include "../../random.h"
+#include "../../ui.h"
+#include "../../disk/zip.h"
 #include "win.h"
 
 

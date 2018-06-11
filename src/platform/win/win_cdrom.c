@@ -27,16 +27,16 @@
 #include <string.h>
 #include <stdlib.h>
 #include <wchar.h>
-#include "../config.h"
-#include "../disk/hdd.h"
-#include "../disk/zip.h"
-#include "../scsi/scsi.h"
-#include "../cdrom/cdrom.h"
-#include "../cdrom/cdrom_image.h"
-#include "../cdrom/cdrom_null.h"
-#include "../scsi/scsi_disk.h"
-#include "../plat.h"
-#include "../ui.h"
+#include "../../config.h"
+#include "../../disk/hdd.h"
+#include "../../disk/zip.h"
+#include "../../scsi/scsi.h"
+#include "../../cdrom/cdrom.h"
+#include "../../cdrom/cdrom_image.h"
+#include "../../cdrom/cdrom_null.h"
+#include "../../scsi/scsi_disk.h"
+#include "../../plat.h"
+#include "../../ui.h"
 #include "win.h"
 
 

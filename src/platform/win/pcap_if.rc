@@ -10,9 +10,9 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
  * - https://commons.wikimedia.org/wiki/File:Icon_PC_256x256.png
  */
 #ifdef RELEASE_BUILD
-100                     ICON    DISCARDABLE     "win/icons/86Box-RB.ico"
+100                     ICON    DISCARDABLE     "assets/icons/86Box-RB.ico"
 #else
-100                     ICON    DISCARDABLE     "win/icons/86Box.ico"
+100                     ICON    DISCARDABLE     "assets/icons/86Box.ico"
 #endif
 
 

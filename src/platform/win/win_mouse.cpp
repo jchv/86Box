@@ -20,9 +20,9 @@
 #include <dinput.h>
 #include <stdio.h>
 #include <stdint.h>
-#include "../86Box.h"
-#include "../mouse.h"
-#include "../plat.h"
+#include "../../86Box.h"
+#include "../../mouse.h"
+#include "../../plat.h"
 #include "win.h"
 
 
